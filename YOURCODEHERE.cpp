@@ -20,7 +20,7 @@ using namespace std;
 /*
  * Enter your PSU IDs here to select the appropriate scanning order.
  */
-#define PSU_ID_SUM (912345679+911111111)
+#define PSU_ID_SUM (916184516 + 000000000)
 
 /*
  * Some global variables to track heuristic progress.
@@ -41,78 +41,94 @@ bool isDSEComplete = false;
  */
 std::string generateCacheLatencyParams(string halfBackedConfig) {
 
-	string latencySettings;
+  string latencySettings;
 
 	//
 	//YOUR CODE BEGINS HERE
 	//
-	getil1size(std::string configuration) = int il1;
-	getdl1size(std::string configuration) = int dl1;
-	getl2size(std::string configuration) = int ul2;
-
-	int il1at;
-	int ul2lat;
-	int twoKB = 2048;
-        int fourKB = 4096;
-	int eightKB = 8192;
-        int sixteenKB = 16384;
-	int thirtytwoKB = 32768;
-        int sixtyfourKB = 65536;
-	int onetwentyeightKB = 131072;
-	int twofiftysixKB = 262144;
-        int fivetwelveKB = 524288;
-	int oneMB = 1048576;
-
-	if (il1 == twoKB) {
-	  il1at = 1;
-	}
-	if (il1 == fourKB) {
-	  il1at = 2;
-	}
-	if (il1 == eightKB) {
-	  il1at = 3;
-	}
-        if (il1 == sixteenKB) {
-	  il1at = 4;
-	}
-        if (il1 == thirtytwoKB)
-	  il1at = 5;
-	}
-	if (il1 == sixtyfourKB) {
-          il1at = 6;
-	}
-
-
-
-        if (ul2 == thirtytwoKB) {
-	  ul2lat = 5;
-	}
-	if (ul2 == sixtyfourKB) {
-	  ul2lat = 6;
-	}
-	if (ul2 == onetwentyeight) {
-	  ul2lat = 7;
-	}
-        if (ul2 == twofiftysixKB) {
-	  ul2lat = 8;
-	}
-        if (ul2 == fivetwelveKB)
-	  ul2lat = 9;
-	}
-	if (ul2 == oneMB) {
-          ul2lat = 10;
-	}
-
-	// This is a dumb implementation.
-	latencySettings = "1 1 1";
+  int il1 = getil1size(std::string configuration);
+  int dl1 = getdl1size(std::string configuration);
+  int ul2 = getl2size(std::string configuration);
+  int il1at;
+  int dl1at;
+  int ul2lat;
+  int twoKB = 2048;
+  int fourKB = 4096;
+  int eightKB = 8192;
+  int sixteenKB = 16384;
+  int thirtytwoKB = 32768;
+  int sixtyfourKB = 65536;
+  int onetwentyeightKB = 131072;
+  int twofiftysixKB = 262144;
+  int fivetwelveKB = 524288;
+  int oneMB = 1048576;
+  
+  // il1 check
+  if (il1 == twoKB) {
+    il1at = 1;
+  }
+  if (il1 == fourKB) {
+    il1at = 2;
+  }
+  if (il1 == eightKB) {
+    il1at = 3;
+  }
+  if (il1 == sixteenKB) {
+    il1at = 4;
+  }
+  if (il1 == thirtytwoKB) {
+    il1at = 5;
+  }
+  if (il1 == sixtyfourKB) {
+    il1at = 6;
+  }
+  // dl1 check
+  if (dl1 == twoKB) {
+    dl1at = 1;
+  }
+  if (dl1 == fourKB) {
+    dl1at = 2;
+  }
+  if (dl1 == eightKB) {
+    dl1at = 3;
+  }
+  if (dl1 == sixteenKB) {
+    dl1at = 4;
+  }
+  if (dl1 == thirtytwoKB) {
+    dl1at = 5;
+  }
+  if (dl1 == sixtyfourKB) {
+    dl1at = 6;
+  }
+  // ul2 check
+  if (ul2 == thirtytwoKB) {
+    ul2lat = 5;
+  }
+  if (ul2 == sixtyfourKB) {
+    ul2lat = 6;
+  }
+  if (ul2 == onetwentyeight) {
+    ul2lat = 7;
+  }
+  if (ul2 == twofiftysixKB) {
+    ul2lat = 8;
+  }
+  if (ul2 == fivetwelveKB) {
+    ul2lat = 9;
+  }
+  if (ul2 == oneMB) {
+    ul2lat = 10;
+  }
+  std::string s = std::to_string(il1) + " " + std::to_string(dl1) + " " + std::to_string(ul2);
+  latencySettings = s;
 
 	//
 	//YOUR CODE ENDS HERE
 	//
 
 	 
-	 
-	return latencySettings;
+   return latencySettings;
 }
 
 /*
@@ -121,39 +137,49 @@ std::string generateCacheLatencyParams(string halfBackedConfig) {
 int validateConfiguration(std::string configuration) {
 
 	// FIXME - YOUR CODE HERE
-	getil1size(std::string configuration) = int il1;
-	getdl1size(std::string configuration) = int dl1;
-	getl2size(std::string configuration) = int ul2;
-	int minl1size = 2048;   // 2KB
-	int maxl1size = 65536;  // 64KB
-	int minl2size = 32769;  // 32KB
-	int maxl2size = 1048576;// 1MB
+  int il1 = getil1size(std::string configuration);
+  int dl1 = getdl1size(std::string configuration);
+  int ul2 = getl2size(std::string configuration);
+  int minl1size = 2048;   // 2KB
+  int maxl1size = 65536;  // 64KB
+  int minl2size = 32769;  // 32KB
+  int maxl2size = 1048576;// 1MB
 
 	// The below is a necessary, but insufficient condition for validating a
 	// configuration.
-        if (block_size_l1 != ifg)
-	  return 0;
-	if (il1 < minl1size)
-	  return 0;
-	if (il1) > maxl1siz) {
-	  return 0;
-	}
-        if (dl1) < minl1size) {
-	  return 0;
-	}
-	if (dl1) > maxl1size) {
-	  return 0;
-	}
-        if (ul2 < 2(il1 + dl1) {
-	  return 0;
-        }
-	if (ul2 < minl2size) {
-	  return 0;
-        }
-	if (ul2 > maxl2size) {
-	  return 0;
-	} 
-	return isNumDimConfiguration(configuration);
+  if (il1 != ifg) {
+    return 0;
+  }
+  else if (dl1 != il1) {
+    return 0;
+  }
+  else if (il1 < minl1size) {
+    return 0;
+  }
+  else if (il1 > maxl1siz) {
+    return 0;
+  }
+  else if (dl1 < minl1size) {
+    return 0;
+  }
+  else if (dl1 > maxl1size) {
+    return 0;
+  }
+  else if (ul2 < 2(il1 + dl1)) {
+    return 0;
+  }
+  else if (ul2 < minl2size) {
+    return 0;
+  }
+  else if (ul2 > maxl2size) {
+    return 0;
+  }
+  else if (isNumDimConfiguration(configuration) == 0) {
+    return 0;
+  }
+  else {
+    return 1;
+  }
 }
 
 /*
