@@ -46,9 +46,9 @@ std::string generateCacheLatencyParams(string halfBackedConfig) {
 	//
 	//YOUR CODE BEGINS HERE
 	//
-  int il1 = getil1size(std::string configuration);
-  int dl1 = getdl1size(std::string configuration);
-  int ul2 = getl2size(std::string configuration);
+  unsigned int il1 = getil1size(std::string configuration);
+  unsigned int dl1 = getdl1size(std::string configuration);
+  unsigned int ul2 = getl2size(std::string configuration);
   int il1at;
   int dl1at;
   int ul2lat;
@@ -108,7 +108,7 @@ std::string generateCacheLatencyParams(string halfBackedConfig) {
   if (ul2 == sixtyfourKB) {
     ul2lat = 6;
   }
-  if (ul2 == onetwentyeight) {
+  if (ul2 == onetwentyeightKB) {
     ul2lat = 7;
   }
   if (ul2 == twofiftysixKB) {
@@ -120,7 +120,7 @@ std::string generateCacheLatencyParams(string halfBackedConfig) {
   if (ul2 == oneMB) {
     ul2lat = 10;
   }
-  std::string s = std::to_string(il1) + " " + std::to_string(dl1) + " " + std::to_string(ul2);
+  string s = to_string(il1) + " " + to_string(dl1) + " " + to_string(ul2);
   latencySettings = s;
 
 	//
@@ -137,17 +137,18 @@ std::string generateCacheLatencyParams(string halfBackedConfig) {
 int validateConfiguration(std::string configuration) {
 
 	// FIXME - YOUR CODE HERE
-  int il1 = getil1size(std::string configuration);
-  int dl1 = getdl1size(std::string configuration);
-  int ul2 = getl2size(std::string configuration);
+  unsigned int il1 = getil1size(std::string configuration);
+  unsigned int dl1 = getdl1size(std::string configuration);
+  unsigned int ul2 = getl2size(std::string configuration);
   int minl1size = 2048;   // 2KB
   int maxl1size = 65536;  // 64KB
   int minl2size = 32769;  // 32KB
   int maxl2size = 1048576;// 1MB
+  int ifg = 0;
 
 	// The below is a necessary, but insufficient condition for validating a
 	// configuration.
-  if (il1 != ifg) {
+  if (il1 != ifg) { // How to get ifg?
     return 0;
   }
   else if (dl1 != il1) {
@@ -156,7 +157,7 @@ int validateConfiguration(std::string configuration) {
   else if (il1 < minl1size) {
     return 0;
   }
-  else if (il1 > maxl1siz) {
+  else if (il1 > maxl1size) {
     return 0;
   }
   else if (dl1 < minl1size) {
@@ -165,7 +166,7 @@ int validateConfiguration(std::string configuration) {
   else if (dl1 > maxl1size) {
     return 0;
   }
-  else if (ul2 < 2(il1 + dl1)) {
+  else if (ul2 < 2*il1 + 2* dl1) {
     return 0;
   }
   else if (ul2 < minl2size) {
