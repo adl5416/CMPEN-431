@@ -28,7 +28,7 @@ using namespace std;
  * Feel free to create more global variables to track progress of your
  * heuristic.
  */
-unsigned int currentlyExploringDim = 0;
+unsigned int currentlyExploringDim = 11;
 bool currentDimDone = false;
 bool isDSEComplete = false;
 
@@ -234,8 +234,38 @@ std::string generateNextConfigurationProposal(std::string currentconfiguration,
 
 		// Handling for currently exploring dimension. This is a very dumb
 		// implementation.
-		int nextValue = extractConfigPararm(nextconfiguration,
+		if (currentlyExploringDim == 11) {
+		  int nextValue = extractConfigPararm(nextconfiguration, // index 11
+				    currentlyExploringDim) - 9;
+		}
+		else if (currentlyExploringDim >= 2 and currentlyExploringDim < 9) { // index 2-8
+		  nextValue = extractConfigPararm(nextconfiguration,
+			        currentlyExploringDim) + 1;
+		}
+		else if (currentlyExploringDim == 9) {  // index 9
+		  nextValue = extractConfigPararm(nextconfiguration,
+				currentlyExploringDim) + 3;
+		}
+		else if (currentlyExploringDim >= 12 and currentlyExploringDim < 14) { // index 12-13
+		  nextValue = extractConfigPararm(nextconfiguration,
 				currentlyExploringDim) + 1;
+		}
+		else if (currentlyExploringDim == 14) { // index 14
+		  nextValue = extractConfigPararm(nextconfiguration,
+				currentlyExploringDim) - 14;
+		}
+		else if (currentlyExploringDim == 0) { // index 0
+		  nextValue = extractConfigPararm(nextconfiguration,
+				currentlyExploringDim) + 1;
+		}
+		else if (currentlyExploringDim == 1) { // index 1
+		  nextValue = extractConfigPararm(nextconfiguration,
+				currentlyExploringDim) + 14;
+		}
+		else {
+		  nextValue = extractConfigPararm(nextconfiguration, // index 15-17
+				currentlyExploringDim) + 1;
+		}
 
 		if (nextValue >= GLOB_dimensioncardinality[currentlyExploringDim]) {
 			nextValue = GLOB_dimensioncardinality[currentlyExploringDim] - 1;
