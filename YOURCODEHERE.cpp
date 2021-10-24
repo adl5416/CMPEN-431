@@ -28,7 +28,7 @@ using namespace std;
  * Feel free to create more global variables to track progress of your
  * heuristic.
  */
-unsigned int currentlyExploringDim = 11;
+unsigned int currentlyExploringDim = 12;
 bool currentDimDone = false;
 bool isDSEComplete = false;
 
@@ -234,36 +234,36 @@ std::string generateNextConfigurationProposal(std::string currentconfiguration,
 
 		// Handling for currently exploring dimension. This is a very dumb
 		// implementation.
-		if (currentlyExploringDim == 11) {
-		  int nextValue = extractConfigPararm(nextconfiguration, // index 11
+		if (currentlyExploringDim == 12) {
+		  int nextValue = extractConfigPararm(nextconfiguration, // index 12
 				    currentlyExploringDim) - 9;
 		}
-		else if (currentlyExploringDim >= 2 and currentlyExploringDim < 9) { // index 2-8
+		else if (currentlyExploringDim >= 3 and currentlyExploringDim < 10) { // index 3-9
 		  nextValue = extractConfigPararm(nextconfiguration,
 			        currentlyExploringDim) + 1;
 		}
-		else if (currentlyExploringDim == 9) {  // index 9
+		else if (currentlyExploringDim == 10) {  // index 10
 		  nextValue = extractConfigPararm(nextconfiguration,
 				currentlyExploringDim) + 3;
 		}
-		else if (currentlyExploringDim >= 12 and currentlyExploringDim < 14) { // index 12-13
+		else if (currentlyExploringDim >= 13 and currentlyExploringDim < 15) { // index 13-14
 		  nextValue = extractConfigPararm(nextconfiguration,
 				currentlyExploringDim) + 1;
 		}
-		else if (currentlyExploringDim == 14) { // index 14
+		else if (currentlyExploringDim == 15) { // index 15
 		  nextValue = extractConfigPararm(nextconfiguration,
 				currentlyExploringDim) - 14;
 		}
-		else if (currentlyExploringDim == 0) { // index 0
+		else if (currentlyExploringDim == 1) { // index 1
 		  nextValue = extractConfigPararm(nextconfiguration,
 				currentlyExploringDim) + 1;
 		}
-		else if (currentlyExploringDim == 1) { // index 1
+		else if (currentlyExploringDim == 2) { // index 2
 		  nextValue = extractConfigPararm(nextconfiguration,
 				currentlyExploringDim) + 14;
 		}
 		else {
-		  nextValue = extractConfigPararm(nextconfiguration, // index 15-17
+		  nextValue = extractConfigPararm(nextconfiguration, // index 16-18
 				currentlyExploringDim) + 1;
 		}
 
