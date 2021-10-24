@@ -46,9 +46,9 @@ std::string generateCacheLatencyParams(string halfBackedConfig) {
 	//
 	//YOUR CODE BEGINS HERE
 	//
-  unsigned int il1 = getil1size(std::string configuration);
-  unsigned int dl1 = getdl1size(std::string configuration);
-  unsigned int ul2 = getl2size(std::string configuration);
+  unsigned int il1 = getil1size(halfBackedConfig);
+  unsigned int dl1 = getdl1size(halfBackedConfig);
+  unsigned int ul2 = getl2size(halfBackedConfig);
   int il1at;
   int dl1at;
   int ul2lat;
@@ -137,9 +137,9 @@ std::string generateCacheLatencyParams(string halfBackedConfig) {
 int validateConfiguration(std::string configuration) {
 
 	// FIXME - YOUR CODE HERE
-  unsigned int il1 = getil1size(std::string configuration);
-  unsigned int dl1 = getdl1size(std::string configuration);
-  unsigned int ul2 = getl2size(std::string configuration);
+  unsigned int il1 = getil1size(configuration);
+  unsigned int dl1 = getdl1size(configuration);
+  unsigned int ul2 = getl2size(configuration);
   int minl1size = 2048;   // 2KB
   int maxl1size = 65536;  // 64KB
   int minl2size = 32769;  // 32KB
@@ -205,6 +205,7 @@ std::string generateNextConfigurationProposal(std::string currentconfiguration,
 	// 3. NUM_DIMS
 	// 4. NUM_DIMS_DEPENDENT
 	// 5. GLOB_seen_configurations
+  int nextValue;
 
 	std::string nextconfiguration = currentconfiguration;
 	// Continue if proposed configuration is invalid or has been seen/checked before.
@@ -234,8 +235,13 @@ std::string generateNextConfigurationProposal(std::string currentconfiguration,
 
 		// Handling for currently exploring dimension. This is a very dumb
 		// implementation.
+<<<<<<< HEAD
 		if (currentlyExploringDim == 12) {
 		  int nextValue = extractConfigPararm(nextconfiguration, // index 12
+=======
+		if (currentlyExploringDim == 11) {
+		  nextValue = extractConfigPararm(nextconfiguration, // index 11
+>>>>>>> 32ec77832b145a46fd9b0924447bdc0e8464602a
 				    currentlyExploringDim) - 9;
 		}
 		else if (currentlyExploringDim >= 3 and currentlyExploringDim < 10) { // index 3-9
