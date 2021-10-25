@@ -174,7 +174,7 @@ int validateConfiguration(std::string configuration) {
   else if (ul2 < 2*il1 + 2*dl1) {
     return 0;
   }
-  else if(ul2_blocksize > 128) {
+  else if (ul2_blocksize > 128) {
     return 0;
   }
   else if (ul2 < minl2size) {
