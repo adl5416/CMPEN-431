@@ -174,7 +174,7 @@ int validateConfiguration(std::string configuration) {
   else if (ul2 < 2*il1 + 2*dl1) {
     return 0;
   }
-  else if (ul2 > 128) {
+  else if(ul2_blocksize > 128) {
     return 0;
   }
   else if (ul2 < minl2size) {
@@ -246,17 +246,39 @@ std::string generateNextConfigurationProposal(std::string currentconfiguration,
 		// implementation.
 
 
+
+
 		if (currentlyExploringDim == 11) {
 		  nextValue = extractConfigPararm(nextconfiguration, // index 11
-				    currentlyExploringDim) +1;
+				    currentlyExploringDim) - 9;
+		}
+		else if (currentlyExploringDim >= 2 and currentlyExploringDim < 9) { // index 2-8
+		  nextValue = extractConfigPararm(nextconfiguration,
+			        currentlyExploringDim) + 1;
+		}
+		else if (currentlyExploringDim == 9) {  // index 9
+		  nextValue = extractConfigPararm(nextconfiguration,
+				currentlyExploringDim) + 3;
 		}
 		else if (currentlyExploringDim >= 12 and currentlyExploringDim < 14) { // index 12-13
 		  nextValue = extractConfigPararm(nextconfiguration,
 				currentlyExploringDim) + 1;
 		}
-		else { // index 14
+		else if (currentlyExploringDim == 14) { // index 14
 		  nextValue = extractConfigPararm(nextconfiguration,
-				currentlyExploringDim);
+				currentlyExploringDim) - 14;
+		}
+		else if (currentlyExploringDim == 0) { // index 0
+		  nextValue = extractConfigPararm(nextconfiguration,
+				currentlyExploringDim) + 1;
+		}
+		else if (currentlyExploringDim == 1) { // index 1
+		  nextValue = extractConfigPararm(nextconfiguration,
+				currentlyExploringDim) + 14;
+		}
+		else {
+		  nextValue = extractConfigPararm(nextconfiguration, // index 15-17
+				currentlyExploringDim) + 1;
 		}
 
 		if (nextValue >= GLOB_dimensioncardinality[currentlyExploringDim]) {
