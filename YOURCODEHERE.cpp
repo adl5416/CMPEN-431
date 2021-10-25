@@ -28,7 +28,7 @@ using namespace std;
  * Feel free to create more global variables to track progress of your
  * heuristic.
  */
-unsigned int currentlyExploringDim = 12;
+unsigned int currentlyExploringDim = 11;
 bool currentDimDone = false;
 bool isDSEComplete = false;
 
@@ -144,11 +144,13 @@ int validateConfiguration(std::string configuration) {
   int maxl1size = 65536;  // 64KB
   int minl2size = 32769;  // 32KB
   int maxl2size = 1048576;// 1MB
-  int ifg = 0;
+  int ifg = extractConfigPararm(configuration, 0);
+  int il1_blocksize = extractConfigPararm(configuration, 2);
+  int ul2_blocksize = extractConfigPararm(configuration, 8);
 
 	// The below is a necessary, but insufficient condition for validating a
 	// configuration.
-  if (il1 != ifg) { // How to get ifg?
+  if (il1_blocksize < ifg) { 
     return 0;
   }
   else if (dl1 != il1) {
@@ -166,7 +168,13 @@ int validateConfiguration(std::string configuration) {
   else if (dl1 > maxl1size) {
     return 0;
   }
-  else if (ul2 < 2*il1 + 2* dl1) {
+  else if (ul2_blocksize < 2*il1_blocksize) {
+    return 0;
+  }
+  else if (ul2 < 2*il1 + 2*dl1) {
+    return 0;
+  }
+  else if (ul2 > 128) {
     return 0;
   }
   else if (ul2 < minl2size) {
@@ -233,44 +241,22 @@ std::string generateNextConfigurationProposal(std::string currentconfiguration,
 			ss << extractConfigPararm(bestConfig, dim) << " ";
 		}
 
+
 		// Handling for currently exploring dimension. This is a very dumb
 		// implementation.
-<<<<<<< HEAD
-		if (currentlyExploringDim == 12) {
-		  int nextValue = extractConfigPararm(nextconfiguration, // index 12
-=======
+
+
 		if (currentlyExploringDim == 11) {
 		  nextValue = extractConfigPararm(nextconfiguration, // index 11
->>>>>>> 32ec77832b145a46fd9b0924447bdc0e8464602a
-				    currentlyExploringDim) - 9;
+				    currentlyExploringDim) +1;
 		}
-		else if (currentlyExploringDim >= 3 and currentlyExploringDim < 10) { // index 3-9
-		  nextValue = extractConfigPararm(nextconfiguration,
-			        currentlyExploringDim) + 1;
-		}
-		else if (currentlyExploringDim == 10) {  // index 10
-		  nextValue = extractConfigPararm(nextconfiguration,
-				currentlyExploringDim) + 3;
-		}
-		else if (currentlyExploringDim >= 13 and currentlyExploringDim < 15) { // index 13-14
+		else if (currentlyExploringDim >= 12 and currentlyExploringDim < 14) { // index 12-13
 		  nextValue = extractConfigPararm(nextconfiguration,
 				currentlyExploringDim) + 1;
 		}
-		else if (currentlyExploringDim == 15) { // index 15
+		else { // index 14
 		  nextValue = extractConfigPararm(nextconfiguration,
-				currentlyExploringDim) - 14;
-		}
-		else if (currentlyExploringDim == 1) { // index 1
-		  nextValue = extractConfigPararm(nextconfiguration,
-				currentlyExploringDim) + 1;
-		}
-		else if (currentlyExploringDim == 2) { // index 2
-		  nextValue = extractConfigPararm(nextconfiguration,
-				currentlyExploringDim) + 14;
-		}
-		else {
-		  nextValue = extractConfigPararm(nextconfiguration, // index 16-18
-				currentlyExploringDim) + 1;
+				currentlyExploringDim);
 		}
 
 		if (nextValue >= GLOB_dimensioncardinality[currentlyExploringDim]) {
@@ -280,10 +266,10 @@ std::string generateNextConfigurationProposal(std::string currentconfiguration,
 
 		ss << nextValue << " ";
 
-		// Fill in remaining independent params with 0.
+		// Fill in remaining independent params with best value.
 		for (int dim = (currentlyExploringDim + 1);
 				dim < (NUM_DIMS - NUM_DIMS_DEPENDENT); ++dim) {
-			ss << "0 ";
+		        ss << extractConfigPararm(bestConfig, dim) << " ";
 		}
 
 		//
